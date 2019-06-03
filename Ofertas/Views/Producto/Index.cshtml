@@ -1,0 +1,49 @@
+﻿@using ModelLayer
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@model List<Producto>
+<!--big-padding text-center blue-grey white-text-->
+<div style="padding:30px;text-align: center; background: #37474f; color: white">
+    <h1>Productos</h1>
+</div>
+<div class="container">
+    <table id="myTable" class="table table-hovered" cellspacing="0">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">codigo</th>
+                <th scope="col">producto</th>
+                <th scope="col">marca</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.codigo</td>
+                    <td>@item.nombre</td>
+                    <td>@item.Marca.descripcion</td>
+                    <td>
+                        <button id="btnVer @item.codigo" onclick="verProducto('@item.codigo')" class="btn btn-success">Ver</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div style="z-index: 100; position: fixed; bottom: 2em; right: 15em">
+    <a href="/Producto/crear" id="btnCrear" class="btn btn-success" style="border-radius: 50%">+</a>
+</div>
+
+
+
+<script>
+    function verProducto(codigo) {
+        bootbox.alert(codigo);
+    }
+
+</script>

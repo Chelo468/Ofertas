@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OfertasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Lugar">
+          <Key>
+            <PropertyRef Name="id_lugar" />
+          </Key>
+          <Property Name="id_lugar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="direccion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Marca">
+          <Key>
+            <PropertyRef Name="id_marca" />
+          </Key>
+          <Property Name="id_marca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Oferta">
+          <Key>
+            <PropertyRef Name="id_oferta" />
+          </Key>
+          <Property Name="id_oferta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_lugar" Type="int" />
+          <Property Name="codigo_producto" Type="varchar" MaxLength="100" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="precio" Type="decimal" Precision="5" Scale="0" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="id_marca" Type="int" />
+        </EntityType>
+        <EntityType Name="Producto_Lugar">
+          <Key>
+            <PropertyRef Name="codigo_producto" />
+            <PropertyRef Name="id_lugar" />
+          </Key>
+          <Property Name="codigo_producto" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_lugar" Type="int" Nullable="false" />
+          <Property Name="precio" Type="decimal" Precision="5" Scale="0" />
+        </EntityType>
+        <Association Name="FK_Oferta_Lugar">
+          <End Role="Lugar" Type="Self.Lugar" Multiplicity="0..1" />
+          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="id_lugar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oferta_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="codigo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Lugar_Lugar">
+          <End Role="Lugar" Type="Self.Lugar" Multiplicity="1" />
+          <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Principal>
+            <Dependent Role="Producto_Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Lugar_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Producto_Lugar">
+              <PropertyRef Name="codigo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Marca">
+          <End Role="Marca" Type="Self.Marca" Multiplicity="0..1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marca">
+              <PropertyRef Name="id_marca" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="id_marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OfertasModelStoreContainer">
+          <EntitySet Name="Lugar" EntityType="Self.Lugar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marca" EntityType="Self.Marca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Oferta" EntityType="Self.Oferta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto_Lugar" EntityType="Self.Producto_Lugar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Oferta_Lugar" Association="Self.FK_Oferta_Lugar">
+            <End Role="Lugar" EntitySet="Lugar" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oferta_Producto" Association="Self.FK_Oferta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Lugar_Lugar" Association="Self.FK_Producto_Lugar_Lugar">
+            <End Role="Lugar" EntitySet="Lugar" />
+            <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Lugar_Producto" Association="Self.FK_Producto_Lugar_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Marca" Association="Self.FK_Producto_Marca">
+            <End Role="Marca" EntitySet="Marca" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OfertasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Lugar">
+          <Key>
+            <PropertyRef Name="id_lugar" />
+          </Key>
+          <Property Name="id_lugar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Oferta" Relationship="Self.FK_Oferta_Lugar" FromRole="Lugar" ToRole="Oferta" />
+          <NavigationProperty Name="Producto_Lugar" Relationship="Self.FK_Producto_Lugar_Lugar" FromRole="Lugar" ToRole="Producto_Lugar" />
+        </EntityType>
+        <EntityType Name="Marca">
+          <Key>
+            <PropertyRef Name="id_marca" />
+          </Key>
+          <Property Name="id_marca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Marca" FromRole="Marca" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Oferta">
+          <Key>
+            <PropertyRef Name="id_oferta" />
+          </Key>
+          <Property Name="id_oferta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_lugar" Type="Int32" />
+          <Property Name="codigo_producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="precio" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Lugar" Relationship="Self.FK_Oferta_Lugar" FromRole="Oferta" ToRole="Lugar" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Oferta_Producto" FromRole="Oferta" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="id_marca" Type="Int32" />
+          <NavigationProperty Name="Marca" Relationship="Self.FK_Producto_Marca" FromRole="Producto" ToRole="Marca" />
+          <NavigationProperty Name="Oferta" Relationship="Self.FK_Oferta_Producto" FromRole="Producto" ToRole="Oferta" />
+          <NavigationProperty Name="Producto_Lugar" Relationship="Self.FK_Producto_Lugar_Producto" FromRole="Producto" ToRole="Producto_Lugar" />
+        </EntityType>
+        <EntityType Name="Producto_Lugar">
+          <Key>
+            <PropertyRef Name="codigo_producto" />
+            <PropertyRef Name="id_lugar" />
+          </Key>
+          <Property Name="codigo_producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_lugar" Type="Int32" Nullable="false" />
+          <Property Name="precio" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Lugar" Relationship="Self.FK_Producto_Lugar_Lugar" FromRole="Producto_Lugar" ToRole="Lugar" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Lugar_Producto" FromRole="Producto_Lugar" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_Oferta_Lugar">
+          <End Role="Lugar" Type="Self.Lugar" Multiplicity="0..1" />
+          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="id_lugar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Lugar_Lugar">
+          <End Role="Lugar" Type="Self.Lugar" Multiplicity="1" />
+          <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Principal>
+            <Dependent Role="Producto_Lugar">
+              <PropertyRef Name="id_lugar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Marca">
+          <End Role="Marca" Type="Self.Marca" Multiplicity="0..1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marca">
+              <PropertyRef Name="id_marca" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="id_marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oferta_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="codigo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Lugar_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Producto_Lugar">
+              <PropertyRef Name="codigo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OfertasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lugar" EntityType="Self.Lugar" />
+          <EntitySet Name="Marca" EntityType="Self.Marca" />
+          <EntitySet Name="Oferta" EntityType="Self.Oferta" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Producto_Lugar" EntityType="Self.Producto_Lugar" />
+          <AssociationSet Name="FK_Oferta_Lugar" Association="Self.FK_Oferta_Lugar">
+            <End Role="Lugar" EntitySet="Lugar" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Lugar_Lugar" Association="Self.FK_Producto_Lugar_Lugar">
+            <End Role="Lugar" EntitySet="Lugar" />
+            <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Marca" Association="Self.FK_Producto_Marca">
+            <End Role="Marca" EntitySet="Marca" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oferta_Producto" Association="Self.FK_Oferta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Lugar_Producto" Association="Self.FK_Producto_Lugar_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OfertasModelStoreContainer" CdmEntityContainer="OfertasEntities">
+          <EntitySetMapping Name="Lugar">
+            <EntityTypeMapping TypeName="OfertasModel.Lugar">
+              <MappingFragment StoreEntitySet="Lugar">
+                <ScalarProperty Name="id_lugar" ColumnName="id_lugar" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marca">
+            <EntityTypeMapping TypeName="OfertasModel.Marca">
+              <MappingFragment StoreEntitySet="Marca">
+                <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Oferta">
+            <EntityTypeMapping TypeName="OfertasModel.Oferta">
+              <MappingFragment StoreEntitySet="Oferta">
+                <ScalarProperty Name="id_oferta" ColumnName="id_oferta" />
+                <ScalarProperty Name="id_lugar" ColumnName="id_lugar" />
+                <ScalarProperty Name="codigo_producto" ColumnName="codigo_producto" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="OfertasModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto_Lugar">
+            <EntityTypeMapping TypeName="OfertasModel.Producto_Lugar">
+              <MappingFragment StoreEntitySet="Producto_Lugar">
+                <ScalarProperty Name="codigo_producto" ColumnName="codigo_producto" />
+                <ScalarProperty Name="id_lugar" ColumnName="id_lugar" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

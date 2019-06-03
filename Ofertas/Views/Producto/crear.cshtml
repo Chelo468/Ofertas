@@ -1,0 +1,52 @@
+﻿@using ModelLayer
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@model Producto
+<h2>Nuevo Producto</h2>
+<div class="form-group">
+    @Html.TextBoxFor(x => x.codigo, new { @class = "form-control col-md-6", @placeholder = "código", @style = "float: left" })
+</div>
+<div class="clearfix" style="margin: 10px 0px"></div>
+<div class="form-group">
+    @Html.TextBoxFor(x => x.nombre, new { @class = "form-control col-md-6", @placeholder = "nombre", @style = "float: left" })
+</div>
+<div class="clearfix" style="margin: 10px 0px"></div>
+<div class="form-group">
+    @*@Html.DropDownList("ddlMarca", (SelectList)ViewBag.listaMarcas, new { @class = "form-control col-md-5", @style="float:left"})*@
+    @Html.DropDownListFor(x => x.Marca, (SelectList)ViewBag.listaMarcas, new { @class = "form-control col-md-5", @style = "float:left" })
+    <button id="btnAgregarMarca" class="btn btn-primary pull-left" style="margin-left: 30px"><b>+</b></button>
+</div>
+<input id="btnCrear" type="submit" value="Crear" class="btn btn-primary" />
+<a href="/Producto/Index" class="btn btn-default">Volver</a>
+
+<script>
+
+    $('#btnCrear').click(function () {
+
+        var producto = {
+            id_marca: $('#Marca').val(),
+            codigo: $('#codigo').val(),
+            nombre: $('#nombre').val()
+        };
+
+        $.ajax({
+            url: '../Producto/registrar',
+            data: producto,
+            success: function (data) {
+
+                if(data.error)
+                {
+                    bootbox.alert(data.mensaje);
+                }
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+
+    });
+
+</script>

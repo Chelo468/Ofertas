@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OfertasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Lugar">
+    <Key>
+      <PropertyRef Name="id_lugar" />
+    </Key>
+    <Property Name="id_lugar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" />
+    <Property Name="direccion" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Marca">
+    <Key>
+      <PropertyRef Name="id_marca" />
+    </Key>
+    <Property Name="id_marca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Oferta">
+    <Key>
+      <PropertyRef Name="id_oferta" />
+    </Key>
+    <Property Name="id_oferta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_lugar" Type="int" />
+    <Property Name="codigo_producto" Type="varchar" MaxLength="100" />
+    <Property Name="fecha" Type="datetime" />
+    <Property Name="precio" Type="decimal" Precision="5" Scale="0" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="100" />
+    <Property Name="id_marca" Type="int" />
+  </EntityType>
+  <EntityType Name="Producto_Lugar">
+    <Key>
+      <PropertyRef Name="codigo_producto" />
+      <PropertyRef Name="id_lugar" />
+    </Key>
+    <Property Name="codigo_producto" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="id_lugar" Type="int" Nullable="false" />
+    <Property Name="precio" Type="decimal" Precision="5" Scale="0" />
+  </EntityType>
+  <Association Name="FK_Oferta_Lugar">
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="0..1" />
+    <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lugar">
+        <PropertyRef Name="id_lugar" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="id_lugar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Oferta_Producto">
+    <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+    <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="codigo_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Lugar_Lugar">
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="1" />
+    <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lugar">
+        <PropertyRef Name="id_lugar" />
+      </Principal>
+      <Dependent Role="Producto_Lugar">
+        <PropertyRef Name="id_lugar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Lugar_Producto">
+    <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+    <End Role="Producto_Lugar" Type="Self.Producto_Lugar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="Producto_Lugar">
+        <PropertyRef Name="codigo_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Marca">
+    <End Role="Marca" Type="Self.Marca" Multiplicity="0..1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marca">
+        <PropertyRef Name="id_marca" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="id_marca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OfertasModelStoreContainer">
+    <EntitySet Name="Lugar" EntityType="Self.Lugar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Marca" EntityType="Self.Marca" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Oferta" EntityType="Self.Oferta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Producto_Lugar" EntityType="Self.Producto_Lugar" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Oferta_Lugar" Association="Self.FK_Oferta_Lugar">
+      <End Role="Lugar" EntitySet="Lugar" />
+      <End Role="Oferta" EntitySet="Oferta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Oferta_Producto" Association="Self.FK_Oferta_Producto">
+      <End Role="Producto" EntitySet="Producto" />
+      <End Role="Oferta" EntitySet="Oferta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Lugar_Lugar" Association="Self.FK_Producto_Lugar_Lugar">
+      <End Role="Lugar" EntitySet="Lugar" />
+      <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Lugar_Producto" Association="Self.FK_Producto_Lugar_Producto">
+      <End Role="Producto" EntitySet="Producto" />
+      <End Role="Producto_Lugar" EntitySet="Producto_Lugar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Marca" Association="Self.FK_Producto_Marca">
+      <End Role="Marca" EntitySet="Marca" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

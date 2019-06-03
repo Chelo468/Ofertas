@@ -1,0 +1,10 @@
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\ModelLayer.dll.config
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\ModelLayer.dll
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\ModelLayer.pdb
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\EntityFramework.dll
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\EntityFramework.xml
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\obj\Debug\ModelLayer.csprojResolveAssemblyReference.cache
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\obj\Debug\ModelLayer.dll
+C:\Users\Chelo\Desktop\Proyectos\Ofertas\Ofertas\ModelLayer\obj\Debug\ModelLayer.pdb
